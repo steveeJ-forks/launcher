@@ -8,6 +8,8 @@ in nixpkgs.mkShell {
   buildInputs = with nixpkgs; [
     niv
 
+    nodejs
+
     (nixpkgs.callPackage pinnedSources.crate2nix {})
     (nixpkgs.writeShellScriptBin "nix-regenerate-expressions" ''
       crate2nix generate --default-features -f ../src-tauri/Cargo.toml -o launcher/Cargo.nix
