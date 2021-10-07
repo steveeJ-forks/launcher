@@ -10,17 +10,17 @@
 let
   pkgs = import nixpkgs {};
 
-  nodejs_16_7_0 =
-    let
-      buildNodejs = pkgs.callPackage "${sources.nixpkgs-master}/pkgs/development/web/nodejs/nodejs.nix" {
-        python = pkgs.python3;
-      };
-    in buildNodejs {
-      enableNpm = true;
-      version = "16.7.0";
-      sha256 = "0drd7zyadjrhng9k0mspz456j3pmr7kli5dd0kx8grbqsgxzv1gs";
-      patches = [ "${sources.nixpkgs-master}/pkgs/development/web/nodejs/disable-darwin-v8-system-instrumentation.patch" ];
-    };
+  # nodejs_16_7_0 =
+  #   let
+  #     buildNodejs = pkgs.callPackage "${sources.nixpkgs-master}/pkgs/development/web/nodejs/nodejs.nix" {
+  #       python = pkgs.python3;
+  #     };
+  #   in buildNodejs {
+  #     enableNpm = true;
+  #     version = "16.7.0";
+  #     sha256 = "0drd7zyadjrhng9k0mspz456j3pmr7kli5dd0kx8grbqsgxzv1gs";
+  #     patches = [ "${sources.nixpkgs-master}/pkgs/development/web/nodejs/disable-darwin-v8-system-instrumentation.patch" ];
+  #   };
 
   default = import ./default.nix { inherit sources nixpkgs holochainNixpkgsPath; };
   inherit (default)
@@ -74,7 +74,8 @@ in pkgs.mkShell {
     squashfsTools
     pkgs.rust.packages.stable.rustc
     pkgs.rust.packages.stable.cargo
-    (yarn.override { nodejs = nodejs_16_7_0; })
+    yarn
+    nodejs-16_x
   ] ++ libs;
   # TODO:
   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath (
